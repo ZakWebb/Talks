@@ -1,0 +1,46 @@
+## Core latex/pdflatex aux files:
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+*.auxlock
+
+## Intermediate documents:
+*.dvi
+*-converted-to.*
+
+## Bibliography aux files:
+*.bbl
+*.bcf
+*.blg
+*-blx.aux
+*-blx.aux
+*.brf
+*.run.xml
+
+## Build tool aux files:
+*.fdb_latexmk
+*.synctex.gz
+*.synctex.gs(busy)
+*.pdfsync
+
+## Beamer
+*.nav
+*.snm
+*.vrb
+
+## hyperref
+*.brf
+
+## externalized tikz files
+*/plots*
+*.md5
+*.dpth
+
+## I have no idea
+*.top
+*.tui
+*.mp
