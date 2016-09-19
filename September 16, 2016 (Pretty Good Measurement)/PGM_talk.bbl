@@ -1,0 +1,26 @@
+\providecommand{\bysame}{\leavevmode\hbox to3em{\hrulefill}\thinspace}
+\begin{thebibliography}{1}
+
+\bibitem{BK02}
+Howard Barnum and Emanuel Knill, \emph{Reversing quantum dynamics with
+  near-optimal quantum and classical fidelity}, Journal of Mathematical Physics
+  \textbf{43} (2002), no.~5, 2097--2106,
+  \mbox{\href{http://arxiv.org/abs/quant-ph/0004088}{quant-ph/0004088}}.
+
+\bibitem{Hol96}
+AS~Holevo, \emph{The capacity of quantum channel with general signal states},
+  IEEE Trans. Info. Theor. \textbf{44} (1996), 269--273,
+  \mbox{\href{http://arxiv.org/abs/quant-ph/9611023}{quant-ph/9611023}}.
+
+\bibitem{Mon07}
+Ashley Montanaro, \emph{On the distinguishability of random quantum states},
+  Communications in Mathematical Physics \textbf{273} (2007), no.~3, 619--636,
+  \mbox{\href{http://arxiv.org/abs/quant-ph/0607011}{quant-ph/0607011}}.
+
+\bibitem{WatTheory}
+John Watrous, \emph{Theory of quantum information}, 2016.
+
+\bibitem{Wri15}
+John Wright, \emph{Lecture 20: Pretty good measurement}.
+
+\end{thebibliography}
