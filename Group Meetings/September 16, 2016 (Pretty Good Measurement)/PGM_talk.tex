@@ -1,0 +1,235 @@
+\documentclass{amsart}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Included Packages
+
+\usepackage[T1]{fontenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}\mathtoolsset{centercolon}
+\usepackage[normalem]{ulem} 
+\usepackage[colorlinks]{hyperref}
+\usepackage[all]{hypcap}
+\usepackage{thmtools}
+\usepackage{thm-restate}
+\usepackage[foot]{amsaddr}
+\usepackage{color}
+\usepackage[numbers,sort]{natbib}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Hyperref commands
+
+\newcommand{\eq}[1]{\hyperref[eq:#1]{(\ref*{eq:#1})}}
+\renewcommand{\sec}[1]{\hyperref[sec:#1]{Section~\ref*{sec:#1}}}
+\newcommand{\app}[1]{\hyperref[app:#1]{Appendix~\ref*{app:#1}}}
+\newcommand{\thm}[1]{\hyperref[thm:#1]{Theorem~\ref*{thm:#1}}}
+\newcommand{\lem}[1]{\hyperref[lem:#1]{Lemma~\ref*{lem:#1}}}
+\newcommand{\propo}[1]{\hyperref[prop:#1]{Proposition~\ref*{prop:#1}}}
+\newcommand{\defn}[1]{\hyperref[defn:#1]{Definition~\ref*{defn:#1}}}
+\newcommand{\ex}[1]{\hyperref[ex:#1]{Example~\ref*{ex:#1}}}
+\newcommand{\fct}[1]{\hyperref[fct:#1]{Fact~\ref*{fct:#1}}}
+\newcommand{\fig}[1]{\hyperref[fig:#1]{Figure~\ref*{fig:#1}}}
+\newcommand{\figs}[1]{\hyperref[fig:#1]{Figures~\ref*{fig:#1}}}
+\newcommand{\subfig}[1]{\protect\subref{fig:#1}}
+\newcommand{\cas}[1]{\hyperref[case:#1]{Case~\ref*{case:#1}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Theorem/Lemma Initialization
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{definition}{Definition}
+\newtheorem{fact}{Fact}
+\newtheorem{prop}{Proposition}
+\newtheorem{cor}{Corollary}
+
+\theoremstyle{remark}
+\newtheorem{case}{Case}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Miscellaneous Macros
+
+\newcommand{\bra}[1]{\langle{#1}|}
+\newcommand{\ket}[1]{|{#1}\rangle}
+\newcommand{\braket}[2]{\langle{#1}|{#2}\rangle}
+\newcommand{\xval}[3]{\left\langle{#1}|#2 |#3 \right\rangle}
+\newcommand{\ketbra}[2]{\ket{#1}\hspace{-1.5pt}\bra{#2}}
+\newcommand{\ceil}[1]{\lceil{#1}\rceil}
+
+
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\II}{\mathbb{I}}
+\newcommand{\KK}{\mathbb{K}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\clif}{\mathcal{C}}
+\newcommand{\paul}{\mathcal{P}}
+\newcommand{\XX}{\mathcal{X}}
+\newcommand{\YY}{\mathcal{Y}}
+\newcommand{\unitary}{\mathcal{U}}
+\newcommand{\EE}{\mathcal{E}}
+\newcommand{\HHH}{\mathcal{H}}
+
+\DeclareMathOperator{\tr}{Tr}
+\DeclareMathOperator{\poly}{poly}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Title/Author/etc.
+
+\title{Pretty-good measurement}
+\author{Zak Webb}
+
+\date{September 16, 2016}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\maketitle 
+
+This will hopefully be a quick introduction to the pretty-good measurement, a procedure for producing a set of measurements for distinguishing a set of given states, that works ``pretty good.''  It's not always an optimal measurement, but the fact that it is easily described allows it to be a first guess when an measurement is needed for some theoretical task.  Further, in some cases it does provide an optimal distinguishing probability, which is useful theoretically.
+
+\section{Quantum hypothesis testing}
+
+The first thing we need to do when discussing the pretty-good measurement is to describe the problem it is used to solve.  In particular, let us assume that we are given a quantum state on an $N$-dimensional system, where we know the ensemble from which the state is chosen.  We then want to distinguish which state we received, and do so with a large probability of success.
+
+More concretely, let us define the ensemble
+\begin{equation}
+  \EE = \big\{ (p_i,\rho_i)\big\}_{i\in[M]},
+\end{equation}
+where each $\rho_i\in \mathcal{D}(\CC^N)$, and the $(p_i)_{i\in[M]}$ form a probability distribution.  Given a random $\sigma$ distributed according to the distribution $\EE$, we want to determine which $i\in[M]$ for which $\sigma = \rho_i$.  The goal is then to construct a measurement scheme that maximizes the probability of correctly determining which state we are given.
+
+This is a rather general problem in quantum information, and it depends greatly on the given distribution.  For example, if $p_1 = 1$ the problem is trivial, while if each $\rho_i=\rho_j$, then the best solution is to simply guess whichever $j$ has the largest probability of occurring.
+
+This problem has a solution in the case for $M=2$, as the fact that a given POVM's operators must sum to the identity means that we are really only trying to maximize over one positive semi-definite operator.  In particular, we have that $p_1 = 1-p_2 = p$, and $M_1 = \II - M_2 = M$, and the probability of successfully determining the correct $i\in[2]$ is given explicitly by
+\begin{align}
+  \text{Pr}(\text{Success}) &= p \tr\big[ M \rho_1\big] + (1-p) \tr \big[ (\II- M) \rho_2\big]\\
+    &= 1-p + \tr\Big\{ \big[p (\rho_1 + \rho_2)- \rho_2\big] M  \Big\}.
+\end{align}
+Hence, in this special case, the success probability is maximized when $M$ is a projector onto the positive eigenspace of $p(\rho_1+\rho_2) - \rho_2$.
+
+When we extend the problem to multiple outcomes, however, we no longer have as nice of a solution.  In fact, as far as I am aware (and I could probably do a more thorough literature search), there isn't a nice closed form solution for this problem.
+
+\subsection{Holevo bound}
+
+While we don't actually have a solution to this problem, we do have some upper bounds on the amount of information that can be extracted from the state $\sigma$.  In particular, Holevo's theorem states that for a given ensemble $\mathcal{E}$ of quantum states, the amount of information that can be accessed about the initial $i\in[M]$ is bounded from above by
+\begin{align}
+ \xi(\mathcal{E}) = S\Big( \sum_{i\in[M]} p_i \rho_i\Big) - \sum_{i\in[M]} p_i S(\rho_i),
+\end{align}
+where $S(\rho)$ is the von Neumann entropy of the state $\rho$.
+
+I might want to expound on this bound, but I'm not sure.
+
+\section{Intuition for the pretty-good measurement}
+
+The goal of the pretty good measure is to provide a measurement scheme for a given QHT that succeeds with a decent amount of probability, but is also somewhat intuitive.  We will now proceed with two special cases of the QHT, for which an obvious measurement strategy works.  The pretty-good measurement generalizes these special cases, with only a small amount of work.
+
+\subsection{Pure and orthogonal states}
+
+Let us first look at the case where each $\rho_i = \ketbra{\psi_i}{\psi_i}$, and where $\braket{\psi_i}{\psi_j} = 0$ for $i\neq j$.  
+
+In this special case, we have several orthogonal states, each of which is pure.  The natural idea is then to simply measure in the corresponding basis, where $M_i = \rho_i$ (possibly including an $M+1$'st measurement if the states $\ket{\psi_i}$ don't span the entire $N$-dimensional Hilbert space).  This measurement scheme succeeds perfectly, as one might expect given that the states are all orthogonal.
+
+\subsection{Mixed and orthogonal states}
+
+Now let us look at the special case where each $\rho_i$ can now be mixed, but the supports of the $\rho_i$ are still disjoint.  
+
+In this case, if we again use the same $M_i = \rho_i$ as above, we are guaranteed that we never guess the incorrect answer, since
+\begin{equation}
+  \tr[ M_i \rho_j] = \tr[\rho_i\rho_j] = 0,
+\end{equation}
+due to the fact that the density matrices have orthogonal support.  However, in the correct case, we have that
+\begin{align}
+  \tr[M_i \rho_i] = \tr[\rho_i\rho_i] = \tr[\rho_i^2] \leq 1,
+\end{align}
+since the states might no longer be pure.  
+
+What we want instead of the state itself is a projector onto the support of each $\rho_i$, as this will still  keep the orthogonality condition, but will also always accept the state $\rho_i$.  The way we do this is to use the Moore-Penrose pseudo-inverses, so that 
+\begin{align}
+  M_i = \rho_i^{-1/2} \rho_i \rho_{i}^{-1/2}.
+\end{align}
+This is exactly what we wanted, as $M_i$ is then the projector onto the support of $\rho_i$.
+
+This collection of $M_i$ is then guaranteed to succeed with probability 1 for the QHT with these special states.
+
+\subsection{General collection of states}
+
+Now let us not make any assumptions on the ensemble $\mathcal{E}$ other than it is an ensemble of states from $\mathcal{D}(\CC^N)$.  If we make the same definitions of the $M_i$ as in the second case above, we run into a problem, in that the sum of the measurement operators have no relation with the identity!  They can be bigger, smaller, or simply incomparable.
+
+The problem in this case is simply that if the given states $\rho_i$ have overlapping support, when we turn the measurement operators into projectors onto the support, we are essentially double-counting those subspaces.  We somehow need to ensure that the sum of our measurement operators is always less than the identity.
+
+The way that this is done for the pretty good measurement is to use the pseudo-inverse of a a slightly different operator, namely the density matrix of the actual state given to us:
+\begin{align}
+  S := \sum_{i\in [M]} p_i \rho_i,
+\end{align}
+and now we define the measurement operators as
+\begin{align}
+  M_i = p_i S^{-1/2} \rho_i S^{-1/2}.
+\end{align}
+Note that while both $S$ and $M_i$ contain the factors $p_i$, they cancel when the $\rho_i$ have orthogonal support, and thus is a generalization of the previous constructions.  Further, we have that
+\begin{align}
+  \sum_{i\in [M]} M_i = S^{-1/2} \bigg[ \sum_{i\in[M]} p_i \rho_i \bigg] S^{-1/2} \leq \II,
+\end{align}
+where the sum is only less than the identity if the support of the $\rho_i$ don't span the entire Hilbert space.  As such, we have that these $M_i$ form a valid POVM (after possibly including an additional operator).
+
+Additionally, the inclusion of the $p_i$ makes sense.  If two of the $\rho_i$ were equal, we would somehow want to ensure that one of them was chosen with a larger probability: this construction ensures that the state with a larger probability is chosen more often.
+
+
+\section{Bounds on the error}
+
+I'm not going to prove these, but there are some explicit bounds that we can place on the success probability of the pretty good measurement versus the optimal measurement.  
+
+
+\begin{align}
+  1 - P_{PGM}(\mathcal{E}  \leq 2 \sum_{i < j} \sqrt{p_ip_j} F(\sigma_i,\sigma_j),
+\end{align}
+where the fidelity is given by 
+\begin{align}
+  F(\sigma,\rho) = \Vert \sqrt{\sigma} \sqrt{\rho}\Vert_1.
+\end{align}
+From this, we can then prove that
+\begin{align}
+  P_{PGM}(\mathcal{E}) \geq P_{\text{opt}}(\mathcal{E})^2,
+\end{align}
+so that the pretty good measurement is not that far from optimal.
+
+
+Additionally, if the states $\rho_i$ are all pure, there are some lower bounds we can make on the success probability, namely:
+\begin{align}
+  P_{PGM}(\mathcal{E})  \geq \sum_{i=\in[M]} \frac{ p_i^2}{\sum_{j\in[M]} p_j |\braket{\psi_j}{\psi_i}|^2}.
+\end{align}
+
+These bounds are also related to the Gram Matrix.  Namely, let
+\begin{align}
+  G = \sum_{i,j\in [M]} \braket{\psi_j}{\psi_i} \ketbra{i}{j}.
+\end{align}
+If the eigenvalues of $G$ are given by $\{\lambda_i\}$, then we have
+\begin{align}
+  P_{PGM}{\mathcal{E}} \geq \frac{1}{n} \Big( \sum_{i=1}^n \sqrt{\lambda_i}\Big)^2.
+\end{align}
+
+If we again allow for mixed states, we have the slightly worse bounds of
+\begin{align}
+  P_{PGM}(\mathcal{E}) \geq \sum_{i\in[N]} \frac{ p_i^2 \tr(\rho_i^2)}{\sum_{j\in [M]} p_j F(\rho_i,\rho_j)}.
+\end{align}
+
+
+\section{Application to dihedral HSP}
+
+Define the HSP,
+Talk about Dihedral HSP.
+
+Blah blah blah.
+
+
+\nocite{*}
+
+\bibliographystyle{myhamsplain}
+\bibliography{PGM_talk}
+
+\end{document}
+
+
+
+
