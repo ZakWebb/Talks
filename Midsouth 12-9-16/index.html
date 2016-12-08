@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Dequantifying complexity: Classically accessible problems for quantum classes</title>
+
+		<meta name="description" content="9 Dec 2016">
+		<meta name="author" content="Zak Webb">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/blood.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<style type="text/css">
+			.reveal section img {
+				border: none;
+				box-shadow: none;
+				background: none;
+			}
+
+			.two-col-container {
+				width: 100%;
+			}
+
+			.left-col {
+				float: left;
+				width: 50%;
+			}
+
+			.right-col {
+				float: right;
+				width: 50%;
+			}
+/*			.fragment.visible:not(.current-fragment) {
+    			display: none;
+    			height:0px;
+    			line-height: 0px;
+    			font-size: 0px;
+			}*/
+
+			.risk thead td {
+				font-family: Lato, "sans-serif";
+			}
+
+			.risk td {
+    			border-bottom-color: #ccc !important;
+			}
+
+			.risk thead td,
+			.risk tbody td /*.risk-fail, .risk .risk-high, .risk .moderate, .risk .low */{
+				text-align: center !important;
+				width: 6em;	
+
+			}
+
+			.risk tfoot tr:first-child {
+				border-top: #ccc 1px solid;
+			}
+
+			.risk tfoot td {
+				border-bottom-width: 0px;
+				margin-top: 0.3em;
+				font-size: 75%;
+			}
+
+			.risk .fail {
+				text-align: center !important;
+				color: #CC79A7;
+			}
+
+			.risk .high {
+				text-align: center !important;
+				color: #D55E00;
+			}
+
+			.risk .mod {
+				text-align: center !important;
+				color: #F0E442;
+			}
+
+			.risk .low {
+				text-align: center !important;
+				color: #0072B2;
+			}
+		</style>
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<div class="slides">
+
+<!--==================================================================================-->
+<!-- 				<section>
+					<h2>Heading</h2>
+					<ol>
+						<li>What is Quantum key distribution (QKD)?</li>
+					</ol>
+					Regular text
+				</section> -->
+<!--==================================================================================-->
+<!--				<section data-markdown>
+					Follow along at http://www.sckaiser.com/research/talks/thesis_defense/.
+
+					---
+
+					Control slides with ←, → and spacebar.
+					
+					Zoom in and out with shift-click.
+
+					<strong>F</strong> for full-screen.
+				</section>
+<!--==================================================================================-->
+				<section>
+					<h1 style="font-size: 175%; margin-bottom: 0;">Dequantifying complexity:</h1>
+					<h3 style="font-size: 100%">Classically accessible problems for quantum classes</h3>
+					<hr />
+
+					<p>
+						<!-- <small> -->
+						<strong> Midsouth Theory Day</strong><br>
+						<a>Zak Webb</a> <br>
+						<a href="https://login.cs.utexas.edu/">University of Texas</a><br>
+
+					</p>
+
+					<aside class="notes">
+    				</aside>
+				</section>
+<!--==================================================================================-->
+				<section>
+					<large>Spooky!</p>
+				</section>
+
+
+
+<!--==================================================================================-->
+				<section data-markdown >
+					<script type="text/template">
+						# Thank you #
+					</script>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+		    'HTML-CSS': {
+				preferredFont: null,
+				webFont: 'Gyre-Pagella'
+			}
+		  });
+		</script>
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: false,
+				progress: true,
+				history: true,
+				center: true,
+				slideNumber: true,
+				 // Turns fragments on and off globally
+    			fragments: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/math/math.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
