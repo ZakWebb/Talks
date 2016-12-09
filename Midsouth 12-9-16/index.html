@@ -15,7 +15,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/blood.css" id="theme">
+		<link rel="stylesheet" href="css/theme/solarized.css" id="theme">
 
 		<!-- Code syntax highlighting -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -58,7 +58,7 @@
 			.risk thead td,
 			.risk tbody td /*.risk-fail, .risk .risk-high, .risk .moderate, .risk .low */{
 				text-align: center !important;
-				width: 6em;	
+				width: 6em;
 
 			}
 
@@ -128,32 +128,217 @@
 					---
 
 					Control slides with ←, → and spacebar.
-					
+
 					Zoom in and out with shift-click.
 
 					<strong>F</strong> for full-screen.
 				</section>
 <!--==================================================================================-->
-				<section>
-					<h1 style="font-size: 175%; margin-bottom: 0;">Dequantifying complexity:</h1>
-					<h3 style="font-size: 100%">Classically accessible problems for quantum classes</h3>
-					<hr />
+  <section>
+	  <h1 style="font-size: 175%; margin-bottom: 0;">Dequantifying complexity:</h1>
+		<h3 style="font-size: 100%">Classically accessible problems for quantum classes</h3>
+		<hr />
 
-					<p>
-						<!-- <small> -->
-						<strong> Midsouth Theory Day</strong><br>
-						<a>Zak Webb</a> <br>
-						<a href="https://login.cs.utexas.edu/">University of Texas</a><br>
+		<p>
+			<!-- <small> -->
+			<strong> Midsouth Theory Day</strong><br>
+			<a>Zak Webb</a> <br>
+			<a href="https://login.cs.utexas.edu/">University of Texas</a><br>
 
-					</p>
+		</p>
 
-					<aside class="notes">
-    				</aside>
-				</section>
+
+			<img data-src="figures/UTCS_Logo.svg" style="height:40%;width: 40%"alt="UTCS Logo">
+
+			<p>
+			 Joint work with Andrew Childs and David Gosset
+			</p>
+		<aside class="notes">
+    </aside>
+	</section>
 <!--==================================================================================-->
-				<section>
-					<large>Spooky!</p>
-				</section>
+	<section>
+		<h3>Quantum is Spooky! </h3>
+		<p class="fragment">
+			Entanglement, many-worlds, measurement-problem
+		</p>
+		<p class="fragment"> Infinite dimensional spaces</p>
+
+	<div class="fragment"> <img data-src="figures/ghost.png" style="height:40%;width: 40%"alt="Spooky!">
+	</div>
+	</section>
+
+<!--==================================================================================-->
+	<section>
+		<h3> Don't listen to the hype </h3>
+
+		<p class = "fragment"> Essentially just linear algebra </p>
+
+		<p class="fragment"> Albeit on exponential sized vector-spaces</p>
+	</section>
+
+<!--==================================================================================-->
+  <section align=left>
+	  <h3>Basic definitions</h3>
+
+		<div class="fragment"><p>  Quantum state $|\psi\rangle \in \mathcal{H} = \mathbb{C}^{2^n}$</p>
+			<ul style="padding-left: 10px;">
+			<li> $2$-norm of $|\psi\rangle$ is 1</li>
+			<li> $\langle \psi |$ is corresponding linear form </li>
+		</ul></div>
+
+		<div class="fragment"> <p>Unitary $U$</p>
+			<ul style="padding-left: 10px;">
+			<li> 2-norm preserving linear operator on $\mathcal{H}$</li>
+			<li> Describes evolution of quantum states </li></ul></div>
+
+		<div class="fragment"> <p> Hamiltonian $H$</p>
+			<ul style="padding-left: 10px;">
+			<li> Hermitian linear operator on $\mathcal{H}$ </li>
+			<li> Eigenvalues correspond to energy </li>
+			<li>$U(t) = \exp(-i H t)$ </li></ul></div>
+  </section>
+
+<!--==================================================================================-->
+  <section><div align = left>
+	  <p><a font-size=120%><b>BQP</b></a>: A promise problem $(\Pi_{\text{yes}},\Pi_{\text{no}})$ is in
+			<b>BQP </b> if $\exists$ a uniform family of poly-sized quantum circuits
+			$\{\mathcal{C}_n\}_{n\in\mathbb{N}}$:
+	  <ul style="padding-left: 15px;">
+			<li> if $x\in \Pi_{\text{yes}}$ then $\text{Pr}\big[C_{|x|} \text{ accepts } |x\rangle\big] > \frac{2}{3}$ </li>
+			<li> if $x\in \Pi_{\text{no}}$ then $\text{Pr}\big[C_{|x|} \text{ accepts } |x\rangle\big] < \frac{1}{3}$ </li>
+		</ul>
+		</p>
+<div class = "fragment">
+		<p><a font-size=120%><b>QMA</b></a>: A promise problem $(\Pi_{\text{yes}},\Pi_{\text{no}})$ is in
+			<b>QMA </b> if $\exists$ a uniform family of poly-sized quantum circuits
+			$\{\mathcal{C}_n\}_{n\in\mathbb{N}}$:
+	  <ul style="padding-left: 15px;">
+			<li><span> if $x\in \Pi_{\text{yes}}$ then $\exists$ $|\phi_x\rangle$, $\text{Pr}\big[C_{|x|} \text{ accepts } |x,\phi_x\rangle\big] > \frac{2}{3}$ </span></li>
+			<li><span> if $x\in \Pi_{\text{no}}$ then $\forall$ $|\psi\rangle$, $\text{Pr}\big[C_{|x|} \text{ accepts } |x,\psi\rangle\big] < \frac{1}{3}$ </span></li>
+		</ul>
+	</p></div>
+</div>
+	</section>
+
+<!--==================================================================================-->
+  <section>
+    <p> Think about definition of <b>P</b> and <b>NP</b> using circuits.</p>
+
+	  <h2 font-size=150% class="fragment"> <b> BQP </b> $\approx$ <b> P</b>  </h2>
+
+		<h2 font-size=150% class="fragment"> <b> QMA </b> $\approx$ <b> NP</b>  </h2>
+
+		<div class="fragment"> (Include possibility of error, make circuits quantum, and use a quantum proof) </div>
+	</section>
+
+
+<!--==================================================================================-->
+  <section>
+		<h2> Usual complete problems </h2>
+
+		<p class="fragment"><b>BQP</b>: Usually deals with applying a unitary to a fixed quantum state.</p>
+
+		<p class="fragment"><b>QMA</b>: Usually related to smallest eigenvalue of a given Hamiltonian.</p>
+	</section>
+
+<!--==================================================================================-->
+  <section>
+			<p><div> Known relations to common classes</div>
+		<ul>
+			<li><b>BPP</b> $\subset$ <b>BQP</b> </li>
+			<li><b>QMA</b> $\subset$ <b>PP</b> </li>
+		</ul>
+	</p>
+
+  <div class="fragment">
+		<div>
+			There exist oracles relative to which:</div>
+			<ul>
+				<li><b>BQP</b> $\not\subset$ <b>MA</b> </li>
+				<li> <b>NP</b> $\not\subset$ <b>BQP</b></li>
+			</ul>
+		</div>
+	</section>
+
+<!--==================================================================================-->
+  <section>
+	  <h3> Quantum resources are hard to compare to classical!</h3>
+			<p class="fragment"> Try to create more "classical" problems</p>
+	</section>
+
+<!--==================================================================================-->
+  <section>
+	  <h3>Quick aside on Quantum Walk</h3>
+
+		<p class="fragment"> Quantum generalization of Random Walk </p>
+		<p class="fragment"> Require evolution to be reversible</p>
+			<p class="fragment"> Use adjacency matrix as Hamiltonian! </p>
+			<p class="fragment";font-size=50%>
+				$U(t)= \exp(-i A(G) t)$
+			</p>
+
+	</section>
+
+<!--==================================================================================-->
+ <section>
+  <h2>Succinctly Represented Graphs!</h2>
+	<p class="fragment">Each vertex of $G$ corresponds to a single dimension </p>
+
+	<div class="fragment"><p>A $d$-degree graph $G$ is <b>row-computable</b> if:</p>
+		<ul>
+	<li>$\exists f:V(G)\times[d]\rightarrow V(G)$ </li>
+	<li> $f(u,i)$ gives the $i$th neighbor of $u$</li>
+</ul> </div>
+
+  <p class="fragment">We will be interested in $d$-degree, row-computable, $2^n$ vertex graphs. </p>
+ </section>
+
+ <!--==================================================================================-->
+  <section align=left>
+   <h3>$s,t$-Transport Problem</h3>
+
+	 <p class="fragment">Given two vertices $s$ and $t$, does a QW take $|s\rangle$ to $|t\rangle$? </p>
+	 <p class="fragment">Input:<ul class="fragment" style="padding-left: 10px;">
+		 <li> A $d$-degree, row-computable, $N$-vertex graph $G$</li>
+		 <li> Two vertices $s$ and $t$ </li>
+		 <li> A total evolution time, $T$</li>
+		 <li> Minimal probability, $p$ </li>
+		 <li> Promise on acceptance difference, $\epsilon^{-1}$ </li>
+	 </ul></p>
+
+	 <div class="fragment"><h5><b>BQP</b>-complete to determine whether: </h5>
+	 <ul style="padding-left: 10px;">
+		 <li > $|\langle s | \exp(-i A(G) T)| t \rangle|^2 > p+\epsilon$ </li>
+		  <li> $|\langle s | \exp(-i A(G) T)| t \rangle|^2 < p$ </li>
+	 </ul></div>
+  </section>
+
+ <!--==================================================================================-->
+  <section align=left>
+   <h3> Adjacency Matrix Smallest Eigenvalue Problem</h3>
+	 <p class="fragment">Given a graph, what is its smallest eigenvalue? </p>
+	 <p class="fragment">Input:<ul class="fragment" style="padding-left: 10px;">
+		 <li> A $d$-degree, row-computable, $N$-vertex graph $G$</li>
+		 <li> Minimal energy, $a$ </li>
+		 <li> Promise on acceptance difference, $\epsilon^{-1}$ </li>
+	 </ul></p>
+
+	 <div class="fragment"><h5><b>QMA</b>-complete to determine whether: </h5>
+	 <ul style="padding-left: 10px;">
+		 <li > $\lambda_1(A(G))< a$ </li>
+		  <li> $\lambda_1(A(G)) > a+\epsilon$ </li>
+	 </ul></div>
+  </section>
+
+<!--==================================================================================-->
+	  <section>
+		  <h2> Lots of open questions</h2>
+				<p> Other "classical" problems</p>
+				<p> <b>NEXP</b>-complete row-computable succinct graph problems </p>
+				<p> Adjacency matrix smallest eigenvalue on explicit graphs </p>
+		</section>
+
 
 
 
