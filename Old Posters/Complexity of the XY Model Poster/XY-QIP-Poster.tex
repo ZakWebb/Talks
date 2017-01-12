@@ -1,0 +1,247 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% LaTeX poster template
+% Created by Nathaniel Johnston
+% August 2009
+% http://www.nathanieljohnston.com/2009/08/latex-poster-template/
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass{beamer}
+\usepackage[orientation=landscape,size=a0,scale=1.2]{beamerposter}
+\usepackage{graphicx}			% allows us to import images
+
+%-----------------------------------------------------------
+% The packages used in our latex file
+%-----------------------------------------------------------
+
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\mathtoolsset{centercolon}
+\usepackage{tikz}
+\makeatletter
+\protected\def\tikz@nonactivecolon{\ifmmode\mathrel{\mathop\ordinarycolon}\else:\fi} 
+\makeatother
+\usetikzlibrary{decorations.pathreplacing}
+\usepackage{verbatim}
+\usepackage[normalem]{ulem} 
+\usepackage{thmtools}
+\usepackage{color}
+\usepackage[english]{babel}
+
+
+%-----------------------------------------------------------
+% Define the column width and poster size
+% To set effective sepwid, onecolwid and twocolwid values, first choose how many columns you want and how much separation you want between columns
+% The separation I chose is 0.024 and I want 4 columns
+% Then set onecolwid to be (1-(4+1)*0.024)/4 = 0.22
+% Set twocolwid to be 2*onecolwid + sepwid = 0.464
+%-----------------------------------------------------------
+
+\newlength{\sepwid}
+\newlength{\onecolwid}
+\newlength{\twocolwid}
+\newlength{\threecolwid}
+\setlength{\sepwid}{0.04\paperwidth}
+\setlength{\onecolwid}{0.28\paperwidth}
+\setlength{\twocolwid}{0.6\paperwidth}
+\setlength{\threecolwid}{.92\paperwidth}
+\setlength{\topmargin}{-0.5in}
+\usetheme{confposter}
+\usepackage{exscale}
+
+%-----------------------------------------------------------
+% The next part fixes a problem with figure numbering. Thanks Nishan!
+% When including a figure in your poster, be sure that the commands are typed in the following order:
+% \begin{figure}
+% \includegraphics[...]{...}
+% \caption{...}
+% \end{figure}
+% That is, put the \caption after the \includegraphics
+%-----------------------------------------------------------
+
+\usecaptiontemplate{
+\small
+\structure{\insertcaptionname~\insertcaptionnumber:}
+\insertcaption}
+
+%-----------------------------------------------------------
+% Define colours (see beamerthemeconfposter.sty to change these colour definitions)
+%-----------------------------------------------------------
+
+\setbeamercolor{block title}{fg=ngreen,bg=white}
+\setbeamercolor{block body}{fg=black,bg=white}
+\setbeamercolor{block alerted title}{fg=white,bg=dblue!70}
+\setbeamercolor{block alerted body}{fg=black,bg=dblue!10}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Miscellaneous Macros
+
+\newcommand{\sbra}[1]{\langle{#1}|}
+\newcommand{\sket}[1]{|{#1}\rangle}
+\newcommand{\sbraket}[2]{\langle{#1}|{#2}\rangle}
+\newcommand{\ceil}[1]{\lceil{#1}\rceil}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\II}{\mathbb{I}}
+\newcommand{\KK}{\mathbb{K}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\posint}{\ZZ^+}
+\renewcommand{\sc}{\mathrm{sc}}
+\newcommand{\bc}{\mathrm{bc}}
+\newcommand{\ph}{\mathrm{ph}}
+
+\DeclareMathOperator{\spn}{span}
+
+
+%-----------------------------------------------------------
+% Name and authors of poster/paper/research
+%-----------------------------------------------------------
+
+\title{Complexity of the XY antiferromagnet}
+\author{Andrew M. Childs$^{1,2,3}$, 
+  David Gosset$^{1,2,4}$,
+  and \underline{Zak Webb}$^{2,5}$} 
+
+\institute{$^1$ Department of Combinatorics \& Optimization, University of Waterloo\\
+  $^2$ Institute for Quantum Computing, University of Waterloo\\
+  $^3$ Department of Computer Science, Institute for Advanced Computer Studies, and \\
+           Joint Center for Quantum Information and Computer Science, University of Maryland\\
+  $^4$ Walter Burke Institute for Theoretical Physics and 
+            Institute for Quantum Information and Matter, California Institute of Technology\\
+  $^5$ Department of Physics \& Astronomy, University of Waterloo}
+  
+  
+  \begin{document}
+
+%----------------------------------------------------------
+% Including the Logos
+%----------------------------------------------------------
+
+\addtobeamertemplate{headline}{} 
+{
+\begin{tikzpicture}[remember picture,overlay] 
+\node [shift={(12 cm,-5cm)}] at (current page.north west) {\includegraphics[height=10cm]{UW_Logo}}; 
+\node [shift={(8.3cm,-15cm)}] at (current page.north west) {\includegraphics[height=5.66cm]{IQC_Logo}};
+\node [shift={(-13.5 cm,-4.75cm)}] at (current page.north east) {\includegraphics[height=4cm]{UMaryland_Logo}}; 
+
+\node [shift={(10 cm,-10cm)}] at (current page.north west) {\includegraphics[height=5cm]{quicslogo}}; 
+\node [shift={(-10 cm,-10.15cm)}] at (current page.north east) {\includegraphics[height=3.5cm]{caltech_logo}}; 
+\node [shift={(-6.75 cm,-15cm)}] at (current page.north east) {\includegraphics[height=3.5cm]{IQIM_logo}}; 
+\end{tikzpicture} 
+}
+
+
+\tikzset{global scale/.style={
+    scale=#1,
+    every node/.style={scale=#1}
+  }
+}
+%-----------------------------------------------------------
+% Start the poster itself
+%-----------------------------------------------------------
+
+\begin{frame}[t]
+\begin{columns}[t]
+\begin{column}{\sepwid}\end{column}
+
+\begin{column}{\onecolwid}
+  \begin{alertblock}{Abstract}
+    We prove that approximating the ground energy of the antiferromagnetic XY model on a simple graph at fixed magnetization is QMA-complete.  This strengthens a previous result considering a generalization of the XY model defined on graphs with self-loops.
+  \end{alertblock}
+  
+  \begin{block}{XY model on a graph}
+    The XY model is usually defined on a lattice, with $XX + YY$ terms between adjacent vertices.  The model on an arbitrary graph is the natural generalization of this.  Given a simple graph $G$ with vertex set $V(G)$ and edge set $E(G)$, the Hamiltonian is then
+    \[
+      O_G = \sum_{\{i,j\}\in E(G)} X_i X_j + Y_i Y_j.
+    \]
+  \end{block}
+  
+  \begin{block}{Bose-Hubbard model on a graph}
+  
+  Closely related to the XY antiferromagnet is the Bose-Hubbard model, a model of interacting particles.  After restricting to $N$ distinguishable particles, the Hilbert space is represented by $\CC^{|V(G)|^N}$, corresponding to the $N$-fold tensor product of single-particle states on $G$.  The Hamiltonian is then given by
+  \[
+    H_G^N = \sum_{i=1}^N A(G)^{(i)} + \sum_{k\in V(G)} \hat{n}_k (\hat{n}_k - 1)
+  \]
+where the superscript refers to which copy of the Hilbert space the operator acts on, and $\hat{n}_k$ counts the number of particles occupying vertex $k$.
+\\~\\
+  The $N$-particle Bose-Hubbard model ($\overline{H}_G^N$) is the restriction of this Hamiltonian to the symmetric (bosonic) subspace.
+  \\~\\
+  Since the second term in $H_G^N$ is positive semidefinite, the smallest possible eigenvalue of the $N$-particle Bose-Hubbard model is $N \mu(G)$, where $\mu(G)$ is the smallest eigenvalue of $A(G)$.  As such, it is convenient to let $\lambda_{N}(G)$ to be the smallest eigenvalue of $\overline{H}_G^N - N \mu(G)$.
+  \end{block}
+\end{column}
+
+\begin{column}{\sepwid}\end{column}
+
+\begin{column}{\onecolwid}
+  \begin{block}{Previous Results}
+    In \cite{BHQMA}, we showed that the problem of determining whether the $N$-particle Bose-Hubbard model on a graph with self loops was approximately frustration-free is QMA-complete.  Explicitly, given $G$, $N$, and $\epsilon$, determining whether $\lambda_N(G)$ is smaller that $\epsilon^\alpha$, or larger than $\epsilon + \epsilon^\alpha$ is QMA-complete for any integer $\alpha$.  
+    \\~\\
+    While our proof statement only claims that $G$ is any graph with self-loops, our hardness construction used a particular set of graphs called \textit{gate graphs}. These graphs were constructed out of a particular 128-vertex graph $g_0$, with edges and self-loops added in a restricted manner to connect the many copies of $g_0$.  By extending the results of \cite{BHQMA}, we show that the $\alpha$-Frustration-free Bose-Hubbard Hamiltonian problem remains QMA-complete with the additional assumption that $G$ is a gate graph with a bounded eigenvalue gap (depending on the number of copies of $g_0$).
+  \end{block}
+  
+  \begin{block}{Hardness of the XY Model}
+    To show that this model is QMA-hard, we use the isomorphism between the XY model and hard-core bosons on simple graphs. By showing that the Bose-Hubbard Hamiltonian remains hard with hard-core bosons on simple graphs, we then get the hardness of the XY model.
+    \\~\\
+    The reduction proceeds by simply examining the same graph, number of particles, and error threshold, with the additional restriction to hard core bosons.  By choosing $\alpha = 3$, both yes and no instances of the Bose-Hubbard model transform into the corresponding instances with the additional restriction to hard core bosons, showing the hardness.
+    \\~\\
+    Since this argument does not alter the graphs, if we can show that the $3$-frustration-free Bose Hubbard model is QMA complete when restricted to simple graphs, we'd have that the XY-Hamiltonian at fixed magnetization is QMA-complete.
+  \end{block}
+  
+    
+  
+\end{column}
+
+\begin{column}{\sepwid}\end{column}
+
+
+
+\begin{column}{\onecolwid}
+
+\begin{block}{Removing the self-loops}
+    Gate graphs satisfy two useful properties:
+    \begin{enumerate}
+      \item every state in the ground space of $A(g_0)$ has nonzero amplitude on at least half the vertices.
+      \item for any gate graph, each copy of $g_0$ has self-loops on at most half of its vertices. 
+    \end{enumerate} 
+    
+    Defining $\mathcal{N}$ to be the set of all vertices of $G$ that do not contain self-loops, then we can define a new graph $G^{\text{SL}}$ with self-loops on \text{all} vertices by
+    \[
+      A(G^{\text{SL}}) = A(G) \otimes \II_2 + 2 \Pi_\mathcal{N} \otimes \Pi_+
+    \]
+    where 
+    \[
+      \Pi_{\mathcal{N}} = \sum_{v\in\mathcal{N}} \sket{v}\sbra{v} \qquad{\text{and}}\qquad \Pi_+ = \sket{+}\sbra{+}.
+    \]
+    Do to the structure of gate graphs, we can show that the ground space of $A(G)$ and $A(G^{\text{SL}})$ are isomorphic, and further that the eigenvalue gap of $A(G^{\text{SL}})$ is bounded by the gap of $A(G)$ (up to a multiplicative constant).
+    \\~\\
+    This relation between the two ground spaces also allows us to show that when restricted to the ground spaces, the expectation of the interaction term for isomorphic states are related by a constant (namely $\frac{1}{2}$).
+    \\~\\
+    Combining these two results, we can then transform a promise on $\lambda_N(G)$ into a promise on $\lambda_N(G^{\text{SL}})$. 
+    \\~\\
+    Since every vertex in $G^{\text{SL}}$ has one self-loop, removing all self-loops corresponds to subtracting a multiple of the identity from $\overline{H}_G^N$, which does not change the promise gap.
+  \end{block}
+
+  
+  
+  \begin{block}{References}
+  \nocite{*}
+  \bibliographystyle{myhamsplain}
+  \footnotesize{\bibliography{XY-poster}}
+  \end{block}
+  
+  \begin{block}{Acknowledgements}
+    \footnotesize{This work was supported in part by CIFAR; NSERC; the Ontario Ministry of Research and Innovation; the Ontario Ministry of Training, Colleges and Universities; and the US ARO.}
+  \end{block}
+
+
+\end{column}
+
+\begin{column}{\sepwid}\end{column}
+
+\end{columns}
+\end{frame}
+
+
+
+\end{document}
