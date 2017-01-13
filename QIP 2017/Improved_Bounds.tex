@@ -140,16 +140,78 @@
 
 \begin{column}{\onecolwid}
   \begin{alertblock}{Abstract}
-    We prove that approximating the ground energy of the antiferromagnetic XY model on a simple graph at fixed magnetization is QMA-complete.  This strengthens a previous result considering a generalization of the XY model defined on graphs with self-loops.
+    Quantum walk has proven itself a powerful resource for quantum computing.  In the single particle model, Childs \cite{Chi09} showed that on an exponential sized graph, quantum walk is universal for quantum computation.  Childs, Gosset, and Webb \cite{MPQW} then showed the universality of multiparticle quantum walk on polynomially sized graphs.  In this work, we improve the work of \cite{MPQW} by improving their error bounds.
+
+    In particular, \cite{MPQW} used graph scattering with square wavepackets to encode the qubits.  By encoding each qubit via a dual-rail encoding, they were able to use single particle and particular two-particle scattering behavior to analyze the many-particle behavior with high precision.  However, to ease analysis they used square wavepackets to encode each qubit.  In this work, we use the same construction as in \cite{MPQW}, but use cutoff Gaussian wavepackets instead.  This then leads to a near quadratic improvement in the resulting error bounds.
   \end{alertblock}
   
-  \begin{block}{XY model on a graph}
-    The XY model is usually defined on a lattice, with $XX + YY$ terms between adjacent vertices.  The model on an arbitrary graph is the natural generalization of this.  Given a simple graph $G$ with vertex set $V(G)$ and edge set $E(G)$, the Hamiltonian is then
+  \begin{block}{Single particle quantum walk}
+    For our purposes, we will use continuous time quantum walk.  For a given graph $G$, this means that the time evolution will simply be determined by taking the adjacency matrix of $G$ as the Hamiltonian for the system:
     \[
-      O_G = \sum_{\{i,j\}\in E(G)} X_i X_j + Y_i Y_j.
+      U(t) = \exp(- i A(G) t).
     \]
+    With this, the underlying Hilbert space is spanned by vertex states $\{\sket{v}, v\in V(G)\}$.
+
+    With this time evolution, we will be interested in understanding the eigenstates of $A(G)$.  As a particular example, if $G$ is an infinite path (think of a discretization of the real line), we have that the eigenstates are of the so-called ``momentum'' states:
+    \[
+      \sket{\tilde{k}} = \sum_{x\in \ZZ} e^{-i k x} \sket{x} \qquad k\in [-\pi,\pi).
+    \]
+    These states move at a speed that depends on $k$, in a similar manner to a one-dimensional free particle.
+    
   \end{block}
- 
+
+
+  \begin{block}{Multiparticle quantum walk}
+    To generalize quantum walk to multiple particles, we will assume that there is some finite-range interaction between particles, that only depends on the number of particles on two vertices, and the distance between the two vertices.  Namely, we will assume that the $N$-particle Hilbert space for a quantum walk on a graph $G$ is spanned by states of the form
+    \[
+      \big\{\sket{v_1,v_2,\cdots,v_N}: v_i\in V(G)\big\}.
+    \]
+    The Hamiltonian governing the time evolution is then given by
+    \[
+      H_G^N = H_{\text{move}} + H_{\text{int}}
+    \]
+    where
+    \[
+      H_{\text{move}} = A(G)\otimes \II\otimes \II \otimes \cdots \otimes \II + \cdots + \II \otimes \cdots\otimes \II \otimes A(G)
+    \]
+    and
+    \[
+      H_{\text{int}} = \sum_{d=0}^{R} \sum_{\substack{u,v\in V(G)\\d(u,v)=d}} U_{d}(\hat{n}_u,\hat{n}_v)
+    \]
+    where $R$ is the maximum range of interaction, $\hat{n}_u$ counts the number of particles located on vertex $u$, and $U_d$ are symmetric polynomials.
+
+    Note that this framework easily includes such things as the Bose-Hubbard model and nearest neighbor interactions.  Similarly, as the Hamiltonian is symmetric, we can restrict ourselves to bosonic or fermionic particles without problems.
+    
+    
+  \end{block}
+
+\end{column}
+
+%%%%% 
+\begin{column}{\sepwid}\end{column}
+
+\begin{column}{\onecolwid}
+  \begin{block}{Graph scattering}
+    With these long distance 
+  \end{block}
+
+  \begin{block}{Two-particle scattering}
+
+  \end{block}
+
+  \begin{block}{Universal Construction}
+
+  \end{block}
+
+\end{column}
+\begin{column}{\sepwid}\end{column}
+
+
+
+\begin{column}{\onecolwid}
+  \begin{block}{Improvements}
+
+    \end{block}
   
   \begin{block}{References}
   \nocite{*}
