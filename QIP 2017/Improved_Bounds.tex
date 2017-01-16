@@ -5,8 +5,9 @@
 % http://www.nathanieljohnston.com/2009/08/latex-poster-template/
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\PassOptionsToPackage{gray}{xcolor}
 \documentclass{beamer}
-\usepackage[orientation=potrait,size=a0]{beamerposter}
+\usepackage[orientation=landscape,size=a0]{beamerposter}
 \usepackage{graphicx}			% allows us to import images
 
 %-----------------------------------------------------------
@@ -23,6 +24,14 @@
 \protected\def\tikz@nonactivecolon{\ifmmode\mathrel{\mathop\ordinarycolon}\else:\fi} 
 \makeatother
 \usetikzlibrary{decorations.pathreplacing}
+%\usepackage{pgfplots}
+
+
+%\usepackage{subfigure}
+\usetikzlibrary{decorations.markings}
+\usepackage{setspace}
+
+\setlength{\parskip}{\baselineskip} 
 %\usepackage{verbatim}
 %\usepackage[normalem]{ulem} 
 %\usepackage{thmtools}
@@ -69,10 +78,16 @@
 % Define colours (see beamerthemeconfposter.sty to change these colour definitions)
 %-----------------------------------------------------------
 
+\newcommand{\Norm}[1]{\left\|{#1}\right\|}
+\newcommand{\norm}[1]{\|{#1}\|}
+
+
+
+
 \setbeamercolor{block title}{fg=ngreen,bg=white}
 \setbeamercolor{block body}{fg=black,bg=white}
-\setbeamercolor{block alerted title}{fg=white,bg=dblue!70}
-\setbeamercolor{block alerted body}{fg=black,bg=dblue!10}
+\setbeamercolor{block alerted title}{fg=white, bg=dblue!70}
+\setbeamercolor{block alerted body}{fg=black, bg=dblue!50}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Miscellaneous Macros
@@ -91,6 +106,7 @@
 \renewcommand{\sc}{\mathrm{sc}}
 \newcommand{\bc}{\mathrm{bc}}
 \newcommand{\ph}{\mathrm{ph}}
+\newcommand{\OO}{\mathcal{O}}
 
 \DeclareMathOperator{\spn}{span}
 
@@ -117,9 +133,9 @@
 \addtobeamertemplate{headline}{} 
 {
 \begin{tikzpicture}[remember picture,overlay] 
-  \node [shift={(12 cm,-5cm)}] at (current page.north west) {\includegraphics[height=10cm]{UW_Logo}};
+  \node [shift={(12 cm,-5cm)}] at (current page.north west) {\includegraphics[height=10cm]{UW_Logo_BW}};
 \node [shift={(8.3cm,-10cm)}] at (current page.north west) {\includegraphics[height=5.66cm]{IQC_Logo}};
-\node [shift={(-14.5 cm,-4.75cm)}] at (current page.north east) {\includegraphics[height=4cm]{UTCS_Logo}}; 
+\node [shift={(-14.5 cm,-4.75cm)}] at (current page.north east) {\includegraphics[height=8cm]{UT_Logo_BW}}; 
 
 \end{tikzpicture} 
 }
@@ -158,6 +174,9 @@
     \]
     These states move at a speed that depends on $k$, in a similar manner to a one-dimensional free particle.
     
+    
+
+    
   \end{block}
 
 
@@ -192,15 +211,286 @@
 
 \begin{column}{\onecolwid}
   \begin{block}{Graph scattering}
-    With these long distance 
+    We can use our knowledge of the eigenstates on long paths to understand the dynamics when we attach long paths to finite sized graphs; most eigenstates take the form of scattering states.
+    
+    The particular scattering behavior depends on the finite graph to which the long paths are attached, the number of paths, and the momentum of the incoming particle, but the scattering behavior is relatively simple to determine.
+    
+    Moreover, while the eigenstates of the system do not evolve in time, we prove that the time evolution of a truncated Gaussian wavepacket moves forward at the correct speed, hits the finite graph, and scatters off of the graph with the amplitudes as determined by the scattering eigenstate to high precision.  As such, our intuition for these scattering states are well-founded.
+
+
+\begin{figure}
+\centering
+\begin{tikzpicture}[
+  scale=2,
+  label distance=-5.5pt,
+  thin,
+  vertex/.style={circle,draw=black,fill=black,inner sep=1.25pt,
+    minimum size =0mm},
+  attach/.style={circle,draw=black,fill=white,inner sep=1.25pt,
+    minimum size =0mm},
+  dots/.style={circle,fill=black,inner sep=.5pt,
+    minimum size= 0pt},
+  every text node part/.style={font=\footnotesize}]
+
+  \node at (.15, .63) [rectangle,fill=white] {$(1,1)$};
+  \node at (.48, .17) [rectangle,fill=white,inner sep=0pt] {$(1,2)$};
+  \node at (.22,-.5) [rectangle,fill=white] {$(1,N)$};
+
+  \draw[thick] (15:1) arc (15:335:1);
+  \draw[densely dotted] (15:1)  arc (15:5:1);
+  \draw[densely dotted] (-15:1)  arc (-15:-25:1);
+
+  \node at (-.42,.12) [rectangle] {\normalsize ${\hat{G}}$};
+
+  \foreach \x  in {50, 25,-35}{
+    \draw (\x:1cm) -- (\x:3.15cm);
+    \draw (\x:2.9cm) -- (\x:3.4cm) [densely dotted];
+  }
+  
+  \node at (50:1)[attach]{};
+  \node at (50:1.66)[vertex,label=150:{$(2,1)$}]{};
+  \node at (50:2.33)[vertex,label=150:{$(3,1)$}]{};
+  \node at (50:3)[vertex,label=150:{$(4,1)$}]{};
+
+  \node at (25:1)[attach]{};
+  \node at (25:1.66)[vertex]{};
+  \node at (25:2.33)[vertex]{};
+  \node at (25:3)[vertex]{};
+  
+  \node at (12:1.65) {$(2,2)$};
+  \node at (15:2.5) {$(3,2)$};
+  \node at (17.5:3.35) {$(4,2)$};
+
+  \node at (-35:1)[attach]{};
+  \node at (-35:1.66)[vertex,label=60:{$(2,N)$}]{};
+  \node at (-35:2.33)[vertex,label=60:{$(3,N)$}]{};
+  \node at (-35:3)[vertex,label=60:{$(4,N)$}]{};
+
+  \node at (-2.5:2.9)[dots] {};
+  \node at (2.5:2.9)[dots] {};
+  \node at (-7.5:2.9)[dots] {};
+\end{tikzpicture}
+\end{figure}    
+
+
+
+
   \end{block}
 
   \begin{block}{Two-particle scattering}
 
+	General two-particle scattering events are too difficult to analyze analytically, but on restricted graphs the understanding is possible.  In particular, symmetric considerations allow us to determine the eigenstates of two-particles on a long path.  Assuming that the interaction is constant range, most eigenestates take a scattering form with the two particles having momentum states moving toward each other, interacting, and then moving apart with some applied phase after interacting.  Both momenta are unaffected, and the only result of the interaction is to apply a phase to the state.   
+
   \end{block}
 
   \begin{block}{Universal Construction}
+    Using the idea of momentum states, we can encode each qubit via the location of a particle in a dual-rail encoding.  In particular, each qubit will have an associated particle moving at a given momentum, and a long path for each computational basis state.  As such, an $n$-qubit computation will be encoded with $n$ particles and $2n$ long paths.  Note that in this work we use truncated Gaussian wavepackets.
+    
+    Each single qubit gate will be applied via a single particle scattering events.  These gadgets will depend on the momentum, but there exist universal sets for several momenta.
+    
+    Each entangling gate will be a controlled-$Z$ rotation about some angle that depends on particle momentum.  They will be applied by routing two particles toward each other if both particles are on the $1$-paths.  In this manner, they will acquire the interacting phase if and only if both particles are in the computational $1$ state.
+    
+	A quantum circuit is simulated by applying each scattering event in series, with long paths between each event to ensure that the wavepackets are all located a distance from the scattering gadgets.
+    
+    Measurement in the computational basis is then done by determining the location of all particles.
 
+\begin{figure}
+\centering
+\begin{tikzpicture}
+  [ scale = .8,
+    xscale = 0.8,
+    inner/.style={circle,draw=black!100,fill=black!100,inner sep=1pt},
+    attach/.style={circle,draw=black!100,fill=black!0,thin,inner sep=.7pt},
+    switch/.style={circle,draw=black!100,fill=black!50,thin,inner sep=1.25 pt},
+    cross/.style={draw=white,double=black,ultra thick},
+    splitter/.style={circle,fill=white,draw=black!100,inner sep=.8mm},
+    had/.style={rectangle,draw=black!100,fill=white,rounded corners,thick,minimum size = 1},
+    verts/.style={circle,fill=black,inner sep =.6pt,minimum size = 0pt},
+    vert/.style={circle,fill=black,inner sep=0.5pt,minimum size=0pt},
+    decoration={markings, 
+      mark= between positions 0 and 1 step 1.2 mm with{
+        \node[vert] at (0,0){};
+      }}
+    ]
+  \node (mao) at (20,0) [attach,label=right:$0_{3,\text{out}}$] {};
+
+  \node (mbo) at (20,-1) [attach,label=right:$1_{3,\text{out}}$] {};
+ 
+  \node (l2bo) at (20,1.5) [attach,label=right:$1_{2,\text{out}}$] {};
+
+  \node (l2ao) at (20,2.5)   [attach,label=right:$0_{2,\text{out}}$] {};
+
+  \node (l1bo) at (20,4) [attach,label=right:$1_{1,\text{out}}$] {};
+
+  \node (l1ao) at (20,5) [attach,label=right:$0_{1,\text{out}}$] {};
+ 
+  \node (l1aa) at (-20,5) [attach,label=left:$0_{1,\text{in}}$] {};
+  \node (l1ba) at (-20,4) [attach,label=left:$1_{1,\text{in}}$] {};
+  \node (l2aa) at (-20,2.5) [attach,label=left:$0_{2,\text{in}}$] {};
+  \node (l2ba) at (-20,1.5) [attach,label=left:$1_{2,\text{in}}$] {};
+  \node (maa)  at (-20,0) [attach,label=left:$0_{3,\text{in}}$] {};
+  \node (mba)  at (-20,-1) [attach,label=left:$1_{3,\text{in}}$] {};
+
+  \node (bl1) at (-11,-1) [splitter] {};
+  \node (bl2) at (0, -1) [splitter] {};
+  \node (bl3) at (9, -1) [splitter] {};
+
+  \node (br1) at (-9,-1) [splitter] {};
+  \node (br3) at (11, -1) [splitter] {};
+
+  \node (tl1) at (-11, 4) [splitter] {};
+  \node (tl2) at (0 ,1.5) [splitter] {};
+  \node (tl3) at (9,  4) [splitter] {};
+
+  \node (tr1) at (-9, 4) [splitter] {};
+  \node (tr3) at (11,  4) [splitter] {};
+
+  \begin{scope}[thin]
+  \draw[postaction={decorate}] (l1aa) -- (l1ao);
+  \draw[postaction={decorate}] (l2aa) -- (14.25,2.5);
+  \draw[postaction={decorate}] (15.75,2.5) -- (l2ao);
+  \draw[postaction={decorate}] (l1ba) -- (tl1.west);
+  \draw[postaction={decorate}] (tl1.east) -- (tr1.west);
+  \draw[postaction={decorate}] (tr1.east) -- (tl3.west);
+  \draw[postaction={decorate}] (tl3.east) -- (tr3.west);
+  \draw[postaction={decorate}] (tr3.east) -- (l1bo);
+  \draw[postaction={decorate}] (l2ba) -- (tl2.west);
+  \draw[white,line width=5pt] (0.5,1.5) to[out=0,in=180] (2.5,-1);
+  \draw[postaction={decorate}] (tl2.east) -- (0.5,1.5) 
+      to[out=0,in=180] (2.5,-1) -- (4.25,-1);
+  \draw[postaction={decorate}] (5.75,-1) -- (bl3.west);
+  \draw[postaction={decorate}] (15.75,1.5) -- (l2bo);
+  \draw[postaction={decorate}] (maa)  -- (-15.75,0);
+  \draw[postaction={decorate}] (-14.25,0) -- (-5.75,0);
+  \draw[postaction={decorate}] (-4.25,0) -- (4.25,0);
+  \draw[postaction={decorate}] (5.75,0) -- (14.25,0);
+  \draw[postaction={decorate}] (15.75,0) -- (mao);
+  \draw[postaction={decorate}] (mba)  -- (-15.75,-1);
+  \draw[postaction={decorate}] (-14.25,-1) -- (bl1.west);
+  \draw[postaction={decorate}] (bl1.east) -- (br1.west);
+  \draw[postaction={decorate}] (br1.east) -- (-5.75,-1);
+  \draw[postaction={decorate}] (-4.25,-1) -- (bl2.west);
+  \draw[white,line width=5pt] (0.5,-1) to[out=0,in=180] (2.5,1.5);
+  \draw[postaction={decorate}] (bl2.east) -- (0.5,-1) 
+      to[out=0,in=180] (2.5,1.5) -- (14.25,1.5);
+  \draw[postaction={decorate}] (bl3.east) -- (br3.west);
+  \draw[postaction={decorate}] (br3.east) -- (14.25,-1);
+  \draw[postaction={decorate}] (15.75,-1) -- (mbo);
+  \end{scope}
+
+  \begin{scope}[draw=white, line width = 5 pt]
+  \draw (bl1.north) -- (tl1.south);
+  \draw (bl1.north) -- (tl1.south);
+  \draw (bl2.north) -- (tl2.south);
+  \draw (bl3.north) -- (tl3.south);
+  
+  \draw (br1.north) -- (tr1.south);
+  \draw (br3.north) -- (tr3.south);
+  \end{scope}
+
+  \begin{scope}[thin]
+  \draw[postaction={decorate}] (bl1.north) -- (tl1.south);
+  \draw[postaction={decorate}] (bl2.north) -- (tl2.south);
+  \draw[postaction={decorate}] (bl3.north) -- (tl3.south);
+  
+  \draw[postaction={decorate}] (br1.north) -- (tr1.south);
+  \draw[postaction={decorate}] (br3.north) -- (tr3.south);
+  \end{scope}
+ 
+  \draw (br1.west) to[out=0,in=-90] (br1.north);
+  \draw (br3.west) to[out=0,in=-90] (br3.north);
+
+  \draw (tr1.south) to[out=90,in=180] (tr1.east);
+  \draw (tr3.south) to[out=90,in=180] (tr3.east);
+
+  \draw (tl1.west) to[out=0,in=90] (tl1.south);
+  \draw (tl2.west) to[out=0,in=90] (tl2.south);
+  \draw (tl3.west) to[out=0,in=90] (tl3.south);
+
+  \draw (bl1.north) to[out=-90,in=180] (bl1.east);
+  \draw (bl2.north) to[out=-90,in=180] (bl2.east);
+  \draw (bl3.north) to[out=-90,in=180] (bl3.east);
+
+
+  \draw[line width=.9pt] (bl1.west) to[out=0,in=-90] (bl1.north);
+  \draw[line width=.9pt] (bl2.west) to[out=0,in=-90] (bl2.north);
+  \draw[line width=.9pt] (bl3.west) to[out=0,in=-90] (bl3.north);
+
+  \draw[line width=.9pt] (br1.east) to[out=180,in=-90] (br1.north);
+  \draw[line width=.9pt] (br3.east) to[out=180,in=-90] (br3.north);
+
+  \draw[line width=.9pt] (tr1.south) to[out=90,in=0] (tr1.west);
+  \draw[line width=.9pt] (tr3.south) to[out=90,in=0] (tr3.west);
+
+  \draw[line width=.9pt] (tl1.east) to[out=180,in=90] (tl1.south);
+  \draw[line width=.9pt] (tl2.east) to[out=180,in=90] (tl2.south);
+  \draw[line width=.9pt] (tl3.east) to[out=180,in=90] (tl3.south);
+
+  \draw[line width=.3pt,draw=white] (bl1.west) to[out=0,in=-90] (bl1.north);
+  \draw[line width=.3pt,draw=white] (bl2.west) to[out=0,in=-90] (bl2.north);
+  \draw[line width=.3pt,draw=white] (bl3.west) to[out=0,in=-90] (bl3.north);
+
+  \draw[line width=.3pt,draw=white] (br1.east) to[out=180,in=-90] (br1.north);
+  \draw[line width=.3pt,draw=white] (br3.east) to[out=180,in=-90] (br3.north);
+
+  \draw[line width=.3pt,draw=white] (tr1.south) to[out=90,in=0] (tr1.west);
+  \draw[line width=.3pt,draw=white] (tr3.south) to[out=90,in=0] (tr3.west);
+
+  \draw[line width=.3pt,draw=white] (tl1.east) to[out=180,in=90] (tl1.south);
+  \draw[line width=.3pt,draw=white] (tl2.east) to[out=180,in=90] (tl2.south);
+  \draw[line width=.3pt,draw=white] (tl3.east) to[out=180,in=90] (tl3.south);
+  
+
+  \foreach \n in {tl1, tl2, tl3, tr1, tr3}{
+    \node at (\n.east) [attach]{};
+    \node at (\n.west) [attach]{};
+    \node at (\n.south) [attach]{};
+  }
+  
+  \foreach \n in {bl1, bl2, bl3, br1, br3}{
+    \node at (\n.east) [attach]{};
+    \node at (\n.west) [attach]{};
+    \node at (\n.north) [attach]{};
+  }
+
+%---------------------------%
+% Basis-Changing Graph
+%---------------------------% 
+
+\begin{scope}[xshift=14.25 cm, yshift= 1.5cm]
+  \node [had] at (0.8,0.5) {$B$};
+  \foreach \y in {0,1}{
+  \foreach \z in {-.15,1.75}{
+  \node [attach] at (\z cm, \y cm) {};}}
+\end{scope}
+
+%--------------------------%
+% Hadamard Gates
+%--------------------------%
+\begin{scope}[xshift=-15.75 cm]
+\foreach \x in {0,10,20,30}{
+\begin{scope}[xshift= \x cm, yshift= -1cm]
+  \node [had] at (0.8,0.5) {$H$};
+  \foreach \y in {0,1}{
+  \foreach \z in {-.2,1.8}{
+  \node [attach] at (\z cm, \y cm) {};}}
+\end{scope}}
+\end{scope}
+
+%--------------------------%
+% Phase-Gate
+%--------------------------%
+
+\begin{scope}[xshift=-15.75 cm, yshift = 4 cm]
+  \node [had] at (0.8,0.5) {$T$};
+  \foreach \y in {0,1}{
+  \foreach \z in {-.08,1.68}{
+  \node [attach] at (\z cm, \y cm) {};}}
+\end{scope}
+\end{tikzpicture}
+\end{figure}    
+    
+    
   \end{block}
 
 \end{column}
@@ -209,8 +499,43 @@
 
 
 \begin{column}{\onecolwid}
-  \begin{block}{Improvements}
+  \begin{block}{Truncated Gaussian wavepackets}
+Two key technical theorems used in \cite{MPQW} describe the bounds on time evolution of wavepackets in single particle scattering and two particle scattering.  In particular, \cite{MPQW} gave explicit bounds on the difference between the time evolution of an initial square wave packet, and the translation of the wavepacket that moves with the correct speed and has the ideal scattering behavior.  Essentially, they approximated the time evolution by the wavepacket being translated at the ideal speed.
 
+In this manner, they were able to show that the error for a square wave packet of length $L$ grew as $\mathcal{O}(L^{-1/4})$ assuming that the total evolution time was $\mathcal{O}(L)$, and showed that the interaction of two square wavepackets moving toward each other have the ideal behavior up to the same error.
+
+In this work, we give similar bounds for truncated Gaussian wavepackets.  In particular, let us assume that our wavepacket is a truncated Gaussian with standard deviation 
+\[
+  \sigma = \frac{L}{\sqrt{\log L}}
+\]
+truncated at a distance $L$ from the center.  If we then compare the time evolution of this wavepacket to the simple translation of the Gaussian (i.e, move the center at the correct speed for the momentum), we find that the error grows as $\OO(\sqrt{\log L/L})$.  Note that this is a near quadratic improvement over the bounds on the square wavepackets.
+
+A similar (but slightly more complicated) proof also works for understanding two truncated Gaussians traveling toward each other.  Assuming both wavepackets have the same truncation distance and standard deviation, the time evolution of two initially separated wavepackets is well approximated by the translation of the two wavepackets at the correct speed, where the wavepacket acquires the ideal phase after the particles pass each other, up to the same error of $\OO(\sqrt{\log L/L})$.
+
+In this manner, we show that Gaussian wavepackets have a near quadratic improvement over the proven error bounds for square wavepackets. 
+
+
+
+    \end{block}
+    
+    \begin{block}{Improvements to the universal scheme}
+	  As the theorems for the error bounds on the approximations to the wavepacket evolution are used in a black-box manner in the MPQW universality construction, we can essentially plug in our improvements without changing the construction at all.  In particular, the construction for universality showed that the total error bound for the construction grew as $\OO(\epsilon n g |H|)$, where $\epsilon$ is the error of a single scattering event, $n$ is the number of qubits in the system, $g$ is the number of gates in the circuit, and $|H|$ is the norm of the interaction Hamiltonian on $n$ particles.  
+	
+	  In particular, using the truncated Gaussian wavepackets, we have that each scattering event has essentially a quadratically better error bounds, which leads to a large improvement in the bound for the total error of the sequence of scattering events.  If we want the final construction to have constant error probability, we then have that by taking 
+	  \[
+	    L = \Theta \left( g^2 n^2 |H|^2 \log(gn)\right),
+	  \]
+	  the resulting construction will work with constant probability.  This then results in a graph of size
+	  \[
+	    \OO \left(g^3 n^3 |H|^2 \log(gn) \right)
+	  \]
+	  and a total evolution time of
+	  \[
+	    \OO \left( g^3 n^2 |H|^2 \log(gn)\right).
+	  \]
+	  These should be compared to the results of \cite{MPQW}, which yielded graphs of size $\OO(g^5n^5|H|^4)$ and evolution times of $\OO(g^5n^4|H|^4)$.
+    
+    
     \end{block}
   
   \begin{block}{References}
